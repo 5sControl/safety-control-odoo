@@ -31,6 +31,6 @@ class SafetyControl(http.Controller):
                 args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
         return args
 
-    @http.route('/safety/ping', type='json', crf=False)
+    @http.route('/safety/ping', type='json', auth='public', cors='*', crf=False, methods=['POST'])
     def ping(self):
         return {'success': True}
