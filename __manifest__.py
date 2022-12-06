@@ -13,12 +13,10 @@
     'version': '0.1',
     'depends': ['base'],
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/security.xml',
+        'security/ir.model.access.csv',
         'views/views.xml',
-        'views/templates.xml',
-    ],
-    'demo': [
-        'demo/demo.xml',
+        'views/safety_control_menu.xml',
     ],
     'application': True,
     'license': 'LGPL-3'
