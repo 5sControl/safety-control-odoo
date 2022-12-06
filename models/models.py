@@ -1,18 +1,22 @@
-# -*- coding: utf-8 -*-
-
-# from odoo import models, fields, api
+from odoo import models, fields, api
 
 
-# class safety_control(models.Model):
-#     _name = 'safety_control.safety_control'
-#     _description = 'safety_control.safety_control'
+class SafetyControl(models.Model):
+    _name = 'safety_control.safety_control'
+    _description = 'Safety Control'
+    _rec_name = 'action'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    action = fields.Char()
+    date = fields.Char()
+    area = fields.Char()
+    photo = fields.Binary(
+        string="Image",
+        compute="_compute_image",
+        store=True,
+        attachment=False
+    )
+
+    @api.model
+    def create(self, vals):
+        vals['photo'] = vals['photo'].split(',')[1]
+        return super(SafetyControl, self).create(vals)
