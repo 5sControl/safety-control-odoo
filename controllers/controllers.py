@@ -3,7 +3,7 @@ from odoo.http import request
 
 
 class SafetyControl(http.Controller):
-    @http.route('/safety_control/get_all_alerts', auth='public', website=False, crf=True, cors='*', type='json', methods=['GET'])
+    @http.route('/safety_control/get_all_alerts', auth='user', crf=True, type='json', methods=['POST'])
     def all_alerts(self, **kw):
         alert_rec = http.request.env['safety_control.safety_control'].sudo().search([])
         alerts = []
@@ -17,7 +17,7 @@ class SafetyControl(http.Controller):
 
         return alerts
 
-    @http.route('/safety/create_alert', auth="public", type='json')
+    @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
             if rec['action']:
@@ -31,6 +31,6 @@ class SafetyControl(http.Controller):
                 args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
         return args
 
-    @http.route('/safety/ping', type='json', auth='public', cors='*', crf=False, methods=['POST'])
+    @http.route('/safety/ping', type='json', auth='public', crf=False, methods=['POST'])
     def ping(self):
         return {'success': True}
