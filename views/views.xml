@@ -89,7 +89,7 @@
       <!-- actions opening views on models -->
       <record model="ir.actions.act_window" id="safety_control.action_window">
          <field name="name">Alert</field>
-         <field name="res_model">tools_control.tools_control</field>
+         <field name="res_model">safety_control.safety_control</field>
          <field name="view_mode">kanban,tree,form</field>
       </record>
 
