@@ -1,21 +1,36 @@
-# -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+from odoo.http import request
 
 
-# class SafetyControl(http.Controller):
-#     @http.route('/safety_control/safety_control', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class SafetyControl(http.Controller):
+    @http.route('/safety_control/get_all_alerts', auth='public', website=False, crf=True, cors='*', type='json', methods=['GET'])
+    def all_alerts(self, **kw):
+        alert_rec = http.request.env['safety_control.safety_control'].sudo().search([])
+        alerts = []
+        for rec in alert_rec:
+            alerts.append({
+                'action': rec.action,
+                'date': rec.date,
+                'area': rec.area,
+                'photo': rec.photo,
+            })
 
-#     @http.route('/safety_control/safety_control/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('safety_control.listing', {
-#             'root': '/safety_control/safety_control',
-#             'objects': http.request.env['safety_control.safety_control'].search([]),
-#         })
+        return alerts
 
-#     @http.route('/safety_control/safety_control/objects/<model("safety_control.safety_control"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('safety_control.object', {
-#             'object': obj
-#         })
+    @http.route('/safety/create_alert', auth="public", type='json')
+    def create(self, **rec):
+        if http.request.render:
+            if rec['action']:
+                vals = {
+                    'action': rec['action'],
+                    'date': rec['date'],
+                    'area': rec['area'],
+                    'photo': rec['photo'],
+                }
+                new_alert = request.env['safety_control.safety_control'].sudo().create(vals)
+                args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
+        return args
+
+    @http.route('/safety/ping', type='json', crf=False)
+    def ping(self):
+        return {'success': True}
