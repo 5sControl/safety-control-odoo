@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_safety_control_safety_control,safety_control.safety_control,model_safety_control_safety_control,base.group_user,1,1,1,1
