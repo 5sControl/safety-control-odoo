@@ -3,7 +3,7 @@
    <data>
 
       <record model="ir.ui.view" id="safety_control_list">
-         <field name="name">tools_control list</field>
+         <field name="name">safety_control list</field>
          <field name="model">safety_control.safety_control</field>
          <field name="arch" type="xml">
             <tree>
