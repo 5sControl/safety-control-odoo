@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from scripts.safety_handlers import face_rec
 
 
 class SafetyControl(models.Model):
@@ -18,5 +19,6 @@ class SafetyControl(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['photo'] = vals['photo'].split(',')[1]
+        tracing_face = face_rec(vals['photo'].split(',')[-1])
+        vals['photo'] = tracing_face
         return super(SafetyControl, self).create(vals)
