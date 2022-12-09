@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from scripts.safety_handlers import face_rec
+from ..scripts.safety_handlers import face_rec
 
 
 class SafetyControl(models.Model):

@@ -1,6 +1,9 @@
 import pybase64
+
 from PIL import Image
 from io import BytesIO
+
+from ..static.img.get_path import get_file_name
 
 
 def base64_encode(data_image):
@@ -10,5 +13,6 @@ def base64_encode(data_image):
 
 def base64_decode(data_image):
     image = Image.open(BytesIO(pybase64.b64decode(data_image)))
-    image.save('custom/safety_control/static/img/image.jpg')
-    return 'custom/safety_control/static/img/image.jpg'
+    image.save(get_file_name() + 'image.jpg')
+    return get_file_name() + 'image.jpg'
+
