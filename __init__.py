@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import controllers
+git addfrom . import controllers
 from . import models
 from . import scripts
