@@ -16,7 +16,7 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
-        'views/safety_control_menu.xml',
+        'views/safety_control_menu.xml'
     ],
     'application': True,
     'license': 'LGPL-3'
