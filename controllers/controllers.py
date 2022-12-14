@@ -13,6 +13,7 @@ class SafetyControl(http.Controller):
 
                 'action': rec.action,
                 'time': rec.time,
+                'lastTime': rec.lastTime,
                 'area': rec.area,
                 'image': rec.image,
 
@@ -36,6 +37,7 @@ class SafetyControl(http.Controller):
 
                     'action': rec['action'],
                     'time': rec['time'],
+                    'lastTime': rec['lastTime'],
                     'area': rec['area'],
                     'image': rec['image'],
 
