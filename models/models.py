@@ -1,5 +1,6 @@
+import random
+
 from odoo import models, fields, api
-from ..scripts.safety_handlers import face_rec
 
 
 class SafetyControl(models.Model):
@@ -7,18 +8,31 @@ class SafetyControl(models.Model):
     _description = 'Safety Control'
     _rec_name = 'action'
 
-    action = fields.Char()
-    date = fields.Char()
-    area = fields.Char()
-    photo = fields.Binary(
+    device = fields.Char()
+
+    action = fields.Char(string="Action")
+    time = fields.Char(string="Time of Report")
+    area = fields.Char(string="Area")
+    image = fields.Binary(
         string="Image",
-        compute="_compute_image",
         store=True,
         attachment=False
     )
 
+    recognitionType = fields.Text()
+
+    personWithoutHelmet = fields.Boolean(string="Person Without Helmet", default=False)
+    personWithoutHeadphones = fields.Boolean(string="Person Without Headphones", default=False)
+    personWithoutJacket = fields.Boolean(string="Person Without Jacket", default=False)
+    personWithoutGloves = fields.Boolean(string="Person Without Gloves", default=False)
+    personWithoutMask = fields.Boolean(string="Person Without Mask", default=False)
+
+    color = fields.Integer(string='Color')
+
     @api.model
     def create(self, vals):
-        tracing_face = face_rec(vals['photo'].split(',')[-1])
-        vals['photo'] = tracing_face
+
+        vals['image'] = vals['image'].split(',')[-1]
+        vals['color'] = random.randint(0, 255)
+
         return super(SafetyControl, self).create(vals)
