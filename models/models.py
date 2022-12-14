@@ -12,6 +12,7 @@ class SafetyControl(models.Model):
 
     action = fields.Char(string="Action")
     time = fields.Char(string="Time of Report")
+    lastTime = fields.Char(string="Time of Report")
     area = fields.Char(string="Area")
     image = fields.Binary(
         string="Image",
