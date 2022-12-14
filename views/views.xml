@@ -15,46 +15,6 @@
          </field>
       </record>
 
-      <record model="ir.ui.view" id="safety_control.kanban">
-         <field name="name">safety_control kanban</field>
-         <field name="model">safety_control.safety_control</field>
-         <field name="arch" type="xml">
-            <kanban class="oe_background_grey">
-               <field name="id" />
-               <field name="action" />
-               <field name="area" />
-               <field name="time" />
-               <field name="color"/>
-               <templates>
-                  <t t-name="kanban-box">
-                     <div t-attf-class="oe_kanban_global_click o_kanban_record_has_image_fill #{kanban_color(record.color.raw_value)}" >
-                        <div class="o_kanban_image">
-                           <img alt="Avatar" t-att-src="kanban_image('safety_control.safety_control', 'image', record.id.raw_value)" />
-                        </div>
-                        <div class="oe_kanban_details">
-                           <ul>
-                              <li class="mb4">
-                                 <strong>
-                                    <field name="action" />
-                                 </strong>
-                              </li>
-                              <li t-if="record.time.raw_value" class="o_text_overflow">
-                                 <field name="time" />
-                              </li>
-                           </ul>
-                           <ul>
-                              <li t-if="record.time.raw_value" class="o_text_overflow">
-                                 <field name="create_date" />
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </t>
-               </templates>
-            </kanban>
-         </field>
-      </record>
-
       <record model="ir.ui.view" id="safety_control_form">
          <field name="name">safety_control form</field>
          <field name="model">safety_control.safety_control</field>
@@ -63,7 +23,7 @@
             <sheet>
              <div class="oe_button_box" name="button_box">
              </div>
-                  <field name="image" widget="image" options="{'size': [100, 200]}" class="oe_avatar"/>
+                  <field name="image" widget="image" options="{'size': [800, 600]}" class="oe_avatar"/>
                <div name="title_name" class="oe_title">
                    <h1>
                        <table>
@@ -90,7 +50,7 @@
       <record model="ir.actions.act_window" id="safety_control.action_window">
          <field name="name">Alert</field>
          <field name="res_model">safety_control.safety_control</field>
-         <field name="view_mode">kanban,tree,form</field>
+         <field name="view_mode">tree,form</field>
       </record>
 
    </data>
