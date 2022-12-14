@@ -11,10 +11,8 @@ class SafetyControl(http.Controller):
             alerts.append({
                 'device': rec.device,
 
-                'action': rec.action,
                 'time': rec.time,
                 'lastTime': rec.lastTime,
-                'area': rec.area,
                 'image': rec.image,
 
                 'recognitionType': rec.recognitionType,
@@ -31,14 +29,12 @@ class SafetyControl(http.Controller):
     @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
-            if rec['action']:
+            if rec['time']:
                 vals = {
                     'device': rec['device'],
 
-                    'action': rec['action'],
                     'time': rec['time'],
                     'lastTime': rec['lastTime'],
-                    'area': rec['area'],
                     'image': rec['image'],
 
                     'recognitionType': rec['recognitionType'],
