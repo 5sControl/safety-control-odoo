@@ -9,10 +9,20 @@ class SafetyControl(http.Controller):
         alerts = []
         for rec in alert_rec:
             alerts.append({
+                'device': rec.device,
+
                 'action': rec.action,
-                'date': rec.date,
+                'time': rec.time,
                 'area': rec.area,
-                'photo': rec.photo,
+                'image': rec.image,
+
+                'recognitionType': rec.recognitionType,
+
+                'personWithoutHelmet': rec.personWithoutHelmet,
+                'personWithoutHeadphones': rec.personWithoutHeadphones,
+                'personWithoutJacket': rec.personWithoutJacket,
+                'personWithoutGloves': rec.personWithoutGloves,
+                'personWithoutMask': rec.personWithoutMask,
             })
 
         return alerts
@@ -22,10 +32,20 @@ class SafetyControl(http.Controller):
         if http.request.render:
             if rec['action']:
                 vals = {
+                    'device': rec['device'],
+
                     'action': rec['action'],
-                    'date': rec['date'],
+                    'time': rec['time'],
                     'area': rec['area'],
-                    'photo': rec['photo'],
+                    'image': rec['image'],
+
+                    'recognitionType': rec['recognitionType'],
+
+                    'personWithoutHelmet': rec['personWithoutHelmet'],
+                    'personWithoutHeadphones': rec['personWithoutHeadphones'],
+                    'personWithoutJacket': rec['personWithoutJacket'],
+                    'personWithoutGloves': rec['personWithoutGloves'],
+                    'personWithoutMask': rec['personWithoutMask'],
                 }
                 new_alert = request.env['safety_control.safety_control'].sudo().create(vals)
                 args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
