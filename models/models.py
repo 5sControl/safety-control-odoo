@@ -28,5 +28,6 @@ class SafetyControl(models.Model):
     def create(self, vals):
 
         vals['image'] = vals['image'].split(',')[-1]
+        vals['device'] = vals['device'].get('name')
 
         return super(SafetyControl, self).create(vals)
