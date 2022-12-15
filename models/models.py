@@ -1,19 +1,15 @@
-import random
-
 from odoo import models, fields, api
 
 
 class SafetyControl(models.Model):
     _name = 'safety_control.safety_control'
     _description = 'Safety Control'
-    _rec_name = 'action'
+    _rec_name = 'device'
 
-    device = fields.Char()
+    device = fields.Char(string="Device")
 
-    action = fields.Char(string="Action")
     time = fields.Char(string="Time of Report")
-    lastTime = fields.Char(string="Time of Report")
-    area = fields.Char(string="Area")
+    lastTime = fields.Char(string="Time of Report: ")
     image = fields.Binary(
         string="Image",
         store=True,
@@ -28,12 +24,9 @@ class SafetyControl(models.Model):
     personWithoutGloves = fields.Boolean(string="Person Without Gloves", default=False)
     personWithoutMask = fields.Boolean(string="Person Without Mask", default=False)
 
-    color = fields.Integer(string='Color')
-
     @api.model
     def create(self, vals):
 
         vals['image'] = vals['image'].split(',')[-1]
-        vals['color'] = random.randint(0, 255)
 
         return super(SafetyControl, self).create(vals)
