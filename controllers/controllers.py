@@ -29,7 +29,7 @@ class SafetyControl(http.Controller):
     @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
-            if rec['device']:
+            try:
                 vals = {
                     'device': rec['device'],
 
@@ -45,22 +45,8 @@ class SafetyControl(http.Controller):
                     'personWithoutGloves': rec['personWithoutGloves'],
                     'personWithoutMask': rec['personWithoutMask'],
                 }
-            else:
-                vals = {
-                    'device': {'name': 'Undefined Device'},
-
-                    'time': rec['time'],
-                    'lastTime': rec['lastTime'],
-                    'image': rec['image'],
-
-                    'recognitionType': rec['recognitionType'],
-
-                    'personWithoutHelmet': rec['personWithoutHelmet'],
-                    'personWithoutHeadphones': rec['personWithoutHeadphones'],
-                    'personWithoutJacket': rec['personWithoutJacket'],
-                    'personWithoutGloves': rec['personWithoutGloves'],
-                    'personWithoutMask': rec['personWithoutMask'],
-                }
+            except KeyError:
+                return {'success': False, 'message':'Key not found'}
         return {'success': True,
                 'message': 'Success',
                 'ID': request.env['safety_control.safety_control'].sudo().create(vals).id}
