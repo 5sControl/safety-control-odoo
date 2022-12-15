@@ -29,7 +29,7 @@ class SafetyControl(http.Controller):
     @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
-            if rec['time']:
+            if rec['device']:
                 vals = {
                     'device': rec['device'],
 
