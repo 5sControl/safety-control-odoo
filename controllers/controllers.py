@@ -29,7 +29,7 @@ class SafetyControl(http.Controller):
     @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
-            if rec['device']:
+            try:
                 vals = {
                     'device': rec['device'],
 
@@ -45,9 +45,11 @@ class SafetyControl(http.Controller):
                     'personWithoutGloves': rec['personWithoutGloves'],
                     'personWithoutMask': rec['personWithoutMask'],
                 }
-                new_alert = request.env['safety_control.safety_control'].sudo().create(vals)
-                args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
-        return args
+            except KeyError:
+                return {'success': False, 'message':'Key not found'}
+        return {'success': True,
+                'message': 'Success',
+                'ID': request.env['safety_control.safety_control'].sudo().create(vals).id}
 
     @http.route('/safety/ping', type='json', auth='public', crf=False, methods=['POST'])
     def ping(self):
