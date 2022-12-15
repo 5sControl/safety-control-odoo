@@ -45,9 +45,25 @@ class SafetyControl(http.Controller):
                     'personWithoutGloves': rec['personWithoutGloves'],
                     'personWithoutMask': rec['personWithoutMask'],
                 }
-                new_alert = request.env['safety_control.safety_control'].sudo().create(vals)
-                args = {'success': True, 'message': 'Success', 'ID': new_alert.id}
-        return args
+            else:
+                vals = {
+                    'device': {'name': 'Undefined Device'},
+
+                    'time': rec['time'],
+                    'lastTime': rec['lastTime'],
+                    'image': rec['image'],
+
+                    'recognitionType': rec['recognitionType'],
+
+                    'personWithoutHelmet': rec['personWithoutHelmet'],
+                    'personWithoutHeadphones': rec['personWithoutHeadphones'],
+                    'personWithoutJacket': rec['personWithoutJacket'],
+                    'personWithoutGloves': rec['personWithoutGloves'],
+                    'personWithoutMask': rec['personWithoutMask'],
+                }
+        return {'success': True,
+                'message': 'Success',
+                'ID': request.env['safety_control.safety_control'].sudo().create(vals).id}
 
     @http.route('/safety/ping', type='json', auth='public', crf=False, methods=['POST'])
     def ping(self):
