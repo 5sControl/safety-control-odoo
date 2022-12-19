@@ -9,7 +9,7 @@ class SafetyControl(models.Model):
     device = fields.Char(string="Device")
 
     time = fields.Char(string="Time of Report")
-    lastTime = fields.Char(string="Time of Report: ")
+    lastTime = fields.Char(string="Last Time of Report:")
     image = fields.Binary(
         string="Image",
         store=True,
