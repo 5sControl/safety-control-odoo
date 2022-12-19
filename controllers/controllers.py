@@ -3,7 +3,7 @@ from odoo.http import request
 
 
 class SafetyControl(http.Controller):
-    @http.route('/safety_control/get_all_alerts', auth='user', crf=True, type='json', methods=['POST'])
+    @http.route('/safety/get_all_alerts', auth='user', crf=True, type='json', methods=['GET'])
     def all_alerts(self, **kw):
         alert_rec = http.request.env['safety_control.safety_control'].sudo().search([])
         alerts = []
@@ -29,7 +29,7 @@ class SafetyControl(http.Controller):
     @http.route('/safety/create_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def create(self, **rec):
         if http.request.render:
-            try:
+            if rec['image']:
                 vals = {
                     'device': rec['device'],
 
@@ -45,11 +45,26 @@ class SafetyControl(http.Controller):
                     'personWithoutGloves': rec['personWithoutGloves'],
                     'personWithoutMask': rec['personWithoutMask'],
                 }
-            except KeyError:
-                return {'success': False, 'message':'Key not found'}
-        return {'success': True,
-                'message': 'Success',
-                'ID': request.env['safety_control.safety_control'].sudo().create(vals).id}
+                return {'success': True,
+                        'message': 'Success',
+                        'ID': request.env['safety_control.safety_control'].sudo().create(vals).id}
+            else:
+                return {'success': False, 'message':'Something went wrong'}
+
+
+    @http.route('/safety/update_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
+    def edit(self, **rec):
+        try:
+            alert_last_time = request.env['safety_control.safety_control'].search([], limit=1)
+            alert_last_time.lastTime = rec['lastTime']
+            alert_last_time.write({'lastTime': rec['lastTime']})
+        except KeyError:
+            return {'success': False,
+                    'message': 'KeyError'}
+        else:
+            return {'success': True,
+               'message': 'Record was successfully updated'}
+
 
     @http.route('/safety/ping', type='json', auth='public', crf=False, methods=['POST'])
     def ping(self):
