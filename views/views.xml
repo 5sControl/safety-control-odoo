@@ -21,6 +21,7 @@
 							<field name="image" widget="image" options="{'size': [700, 500]}" class="oe_avatar"/>
 							<div>
 								<field name="time"/>
+								<field name="lastTime"/>
 								<group>
 									<field name="device"/>
 								</group>
