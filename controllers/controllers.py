@@ -1,14 +1,14 @@
 from odoo import http
 from odoo.http import request
 
-
 class SafetyControl(http.Controller):
-    @http.route('/safety/get_all_alerts', auth='user', crf=True, type='json', methods=['GET'])
+    @http.route('/safety/get_all_alerts', auth='user', type='json')
     def all_alerts(self, **kw):
         alert_rec = http.request.env['safety_control.safety_control'].sudo().search([])
         alerts = []
         for rec in alert_rec:
             alerts.append({
+                'id': rec.id,
                 'device': rec.device,
 
                 'time': rec.time,
@@ -55,12 +55,10 @@ class SafetyControl(http.Controller):
     @http.route('/safety/update_alert', auth='user', website=False, crf=True, type='json', methods=['POST'])
     def edit(self, **rec):
         try:
-            alert_last_time = request.env['safety_control.safety_control'].search([], limit=1)
-            alert_last_time.lastTime = rec['lastTime']
-            alert_last_time.write({'lastTime': rec['lastTime']})
-        except KeyError:
+            http.request.env['safety_control.safety_control'].sudo().browse(rec.get('id')).write({'lastTime': rec.get('lastTime')})
+        except:
             return {'success': False,
-                    'message': 'KeyError'}
+                    'message': "Record wasn't found"}
         else:
             return {'success': True,
                'message': 'Record was successfully updated'}
